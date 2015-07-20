@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 using hg.ApiWebKit;
 
+using HutongGames.PlayMaker.Ecosystem.Utils;
+
 public abstract class PlayMakerWakRequestBase : MonoBehaviour {
 
 	/// <summary>
@@ -51,13 +53,14 @@ public abstract class PlayMakerWakRequestBase : MonoBehaviour {
 	public abstract void CancelRequest();
 
 
+
 	[Serializable]
-	public class OnSuccessEvent : UnityEvent<bool>
+	public class OnSuccessUnityEvent : UnityEvent<bool>
 	{
 	}
 	
 	[SerializeField]
-	public OnSuccessEvent OnSuccess = new OnSuccessEvent();
+	public OnSuccessUnityEvent OnSuccess = new OnSuccessUnityEvent();
 	
 	[SerializeField]
 	public UnityEvent OnFailure = new UnityEvent();
@@ -66,6 +69,16 @@ public abstract class PlayMakerWakRequestBase : MonoBehaviour {
 	public UnityEvent OnComplete = new UnityEvent();
 
 
+	public PlayMakerEventTarget EventTarget;
+
+	[EventTargetVariable("EventTarget")]
+	public PlayMakerEvent OnSuccessEvent = new PlayMakerEvent("WAK / ON SUCCESS");
+
+	[EventTargetVariable("EventTarget")]
+	public PlayMakerEvent OnFailureEvent = new PlayMakerEvent("WAK / ON FAILURE");
+
+	[EventTargetVariable("EventTarget")]
+	public PlayMakerEvent OnCompleteEvent = new PlayMakerEvent("WAK / ON COMPLETE");
 	/*
 	public virtual void OnSuccess(  core.http.HttpResponse response)
 	{

@@ -110,6 +110,59 @@ public class PlayMakerWakHttpRequestInspector : Editor
 		}
 
 
+		SerializedProperty EventTargetProperty = serializedObject.FindProperty("EventTarget");
+		
+		if (EventTargetProperty!=null)
+		{
+			EditorGUIUtility.LookLikeControls();
+			EditorGUILayout.PropertyField(EventTargetProperty);
+			
+			if(GUI.changed)
+			{
+				serializedObject.ApplyModifiedProperties();
+			}
+		}
+
+		SerializedProperty OnSuccessEventProperty = serializedObject.FindProperty("OnSuccessEvent");
+		
+		if (OnSuccessEventProperty!=null)
+		{
+			EditorGUIUtility.LookLikeControls();
+			EditorGUILayout.PropertyField(OnSuccessEventProperty);
+			
+			if(GUI.changed)
+			{
+				serializedObject.ApplyModifiedProperties();
+			}
+		}
+
+		SerializedProperty OnFailureEventProperty = serializedObject.FindProperty("OnFailureEvent");
+		
+		if (OnFailureEventProperty!=null)
+		{
+			EditorGUIUtility.LookLikeControls();
+			EditorGUILayout.PropertyField(OnFailureEventProperty);
+			
+			if(GUI.changed)
+			{
+				serializedObject.ApplyModifiedProperties();
+			}
+		}
+
+		SerializedProperty OnCompleteEventProperty = serializedObject.FindProperty("OnCompleteEvent");
+		
+		if (OnCompleteEventProperty!=null)
+		{
+			EditorGUIUtility.LookLikeControls();
+			EditorGUILayout.PropertyField(OnCompleteEventProperty);
+			
+			if(GUI.changed)
+			{
+				serializedObject.ApplyModifiedProperties();
+			}
+		}
+
+
 		GUILayout.Space(10);
 		if (GUILayout.Button("Test"))
 		{
