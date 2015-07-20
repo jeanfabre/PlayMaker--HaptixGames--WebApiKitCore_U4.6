@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
-	[ActionCategory("Web Player")]
+	[ActionCategory("WAK")]
 	[Tooltip("Gets data from a url and store it in variables. See Unity WWW docs for more details.")]
 	public class WakHttpRequestExecute : FsmStateAction
 	{

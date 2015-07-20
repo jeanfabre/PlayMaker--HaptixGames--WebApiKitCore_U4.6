@@ -21,14 +21,7 @@ public class PlayMakerWakHttpRequest : PlayMakerWakRequestBase {
 
 	public bool ConfigSectionToggle = false;
 	
-	[Serializable]
-	public class OnSuccess : UnityEvent<bool>
-	{
-	}
-	
-	public UnityEvent OnFailure;
-	
-	public UnityEvent OnComplete;
+
 
 	// Use this for initialization
 	void Start () {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -50,6 +51,19 @@ public abstract class PlayMakerWakRequestBase : MonoBehaviour {
 	public abstract void CancelRequest();
 
 
+	[Serializable]
+	public class OnSuccessEvent : UnityEvent<bool>
+	{
+	}
+	
+	[SerializeField]
+	public OnSuccessEvent OnSuccess = new OnSuccessEvent();
+	
+	[SerializeField]
+	public UnityEvent OnFailure = new UnityEvent();
+	
+	[SerializeField]
+	public UnityEvent OnComplete = new UnityEvent();
 
 
 	/*
