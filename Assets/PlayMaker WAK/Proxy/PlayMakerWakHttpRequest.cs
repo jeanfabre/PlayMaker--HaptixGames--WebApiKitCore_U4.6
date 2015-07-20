@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayMakerWakHttpRequest : MonoBehaviour {
+
+public class PlayMakerWakHttpRequest : PlayMakerWakRequestBase {
 
 	public enum RequestType {GET,POST};
 	public string Uri ="http://www.example.com/test";
@@ -17,6 +20,15 @@ public class PlayMakerWakHttpRequest : MonoBehaviour {
 	public List<PlayMakerWakHeaderDefinition> Headers;
 
 	public bool ConfigSectionToggle = false;
+	
+	[Serializable]
+	public class OnSuccess : UnityEvent<bool>
+	{
+	}
+	
+	public UnityEvent OnFailure;
+	
+	public UnityEvent OnComplete;
 
 	// Use this for initialization
 	void Start () {
@@ -27,4 +39,22 @@ public class PlayMakerWakHttpRequest : MonoBehaviour {
 	void Update () {
 	
 	}
+
+	#region implemented abstract members of PlayMakerWakRequestBase
+
+
+	public override void ExecuteRequest ()
+	{
+		throw new System.NotImplementedException ();
+	}
+
+
+	public override void CancelRequest ()
+	{
+		throw new System.NotImplementedException ();
+	}
+
+
+	#endregion
+
 }

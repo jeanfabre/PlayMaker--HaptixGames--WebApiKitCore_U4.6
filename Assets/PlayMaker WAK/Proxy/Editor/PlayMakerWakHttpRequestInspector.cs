@@ -24,6 +24,8 @@ public class PlayMakerWakHttpRequestInspector : Editor
 			_target = (PlayMakerWakHttpRequest)target;
 		}
 
+
+
 		_target.Uri = EditorGUILayout.TextField("Uri",_target.Uri);
 
 		_target.RequestSectionToggle = EditorGUILayout.Foldout(_target.RequestSectionToggle,"Data");
@@ -67,6 +69,40 @@ public class PlayMakerWakHttpRequestInspector : Editor
 			GUILayout.Space(10);
 			EditorGUI.indentLevel--;
 		}
+
+		GUILayout.Space(10);
+
+		SerializedProperty onSuccessProperty = serializedObject.FindProperty("onSuccess"); // <-- UnityEvent
+
+		if (onSuccessProperty!=null)
+		{
+			EditorGUIUtility.LookLikeControls();
+			EditorGUILayout.PropertyField(onSuccessProperty);
+			
+			if(GUI.changed)
+			{
+				serializedObject.ApplyModifiedProperties();
+			}
+		}else{
+
+			GUILayout.Label("OnSuccess is null...");
+		}
+
+		SerializedProperty onCompleteProperty = serializedObject.FindProperty("onComplete"); // <-- UnityEvent
+		
+		if (onCompleteProperty!=null)
+		{
+			EditorGUIUtility.LookLikeControls();
+			EditorGUILayout.PropertyField(onCompleteProperty);
+			
+			if(GUI.changed)
+			{
+				serializedObject.ApplyModifiedProperties();
+			}
+		}else{
+			GUILayout.Label("onComplete is null...");
+		}
+
 
 		GUILayout.Space(10);
 		if (GUILayout.Button("Test"))
