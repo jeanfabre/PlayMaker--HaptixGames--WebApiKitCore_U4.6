@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,7 +9,41 @@ using hg.ApiWebKit;
 
 using HutongGames.PlayMaker.Ecosystem.Utils;
 
+[Serializable]
+public class RequestDataEntry
+{
+
+	public string key = "";
+	public string value = "";
+
+	public RequestDataEntry(string Key)
+	{
+		this.key = Key;
+	}
+
+	public RequestDataEntry(string Key,string Value)
+	{
+		this.key = Key;
+		this.value = Value;
+	}
+	
+}
+
+[Serializable]
+public class RequestHeaderEntry
+{
+	public string key;
+	public string value;
+	
+}
+
 public abstract class PlayMakerWakRequestBase : MonoBehaviour {
+
+
+	public List<RequestDataEntry> datas;
+
+	public List<RequestHeaderEntry> Headers;
+
 
 	/// <summary>
 	/// The progress of the request. Ranges from 0 to 1.
@@ -53,22 +88,32 @@ public abstract class PlayMakerWakRequestBase : MonoBehaviour {
 	public abstract void CancelRequest();
 
 
+	/// <summary>
+	/// Used to remember the user preference for the inspector Unity Events toggle section
+	/// </summary>
+	public bool UnityEventSectionToggle = false;
 
+	[SerializeField]
+	public UnityEvent OnSuccess = new UnityEvent();
+	
 	[Serializable]
-	public class OnSuccessUnityEvent : UnityEvent<bool>
-	{
-	}
-	
+	public class OnFailureUnityEvent : UnityEvent<string>{}
+
 	[SerializeField]
-	public OnSuccessUnityEvent OnSuccess = new OnSuccessUnityEvent();
-	
-	[SerializeField]
-	public UnityEvent OnFailure = new UnityEvent();
+	public OnFailureUnityEvent OnFailure = new OnFailureUnityEvent();
 	
 	[SerializeField]
 	public UnityEvent OnComplete = new UnityEvent();
 
 
+	/// <summary>
+	/// Used to remember the user preference for the inspector PlayMaker Events toggle section
+	/// </summary>
+	public bool PlayMakerEventSectionToggle = false;
+
+	/// <summary>
+	/// Common setup for PlayMaker Event Target
+	/// </summary>
 	public PlayMakerEventTarget EventTarget;
 
 	[EventTargetVariable("EventTarget")]
@@ -79,7 +124,9 @@ public abstract class PlayMakerWakRequestBase : MonoBehaviour {
 
 	[EventTargetVariable("EventTarget")]
 	public PlayMakerEvent OnCompleteEvent = new PlayMakerEvent("WAK / ON COMPLETE");
-	/*
+
+
+	/* not sure we need this if we have Unity Events and PlayMaker events. But delegates woudl be nice too in all cases.
 	public virtual void OnSuccess(  core.http.HttpResponse response)
 	{
 
@@ -96,5 +143,6 @@ public abstract class PlayMakerWakRequestBase : MonoBehaviour {
 		Debug.Log("Completed");
 	}
 	*/
+
 
 }

@@ -17,10 +17,7 @@ public class PlayMakerWakHttpRequest : PlayMakerWakRequestBase {
 
 	public bool HeaderSectionToggle = false;
 
-	public List<PlayMakerWakHeaderDefinition> Headers;
-
 	public bool ConfigSectionToggle = false;
-	
 
 
 	// Use this for initialization

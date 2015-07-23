@@ -13,17 +13,17 @@ using Rotorz.ReorderableList;
 [CustomEditor(typeof(PlayMakerWakHttpRequest))]
 public class PlayMakerWakHttpRequestInspector : Editor
 {
-
 	PlayMakerWakHttpRequest _target;
-	
+
+
 	public override void OnInspectorGUI()
 	{
+		serializedObject.Update();
 
 		if(_target==null)
 		{
 			_target = (PlayMakerWakHttpRequest)target;
 		}
-
 
 		_target.Uri = EditorGUILayout.TextField("Uri",_target.Uri);
 
@@ -33,18 +33,18 @@ public class PlayMakerWakHttpRequestInspector : Editor
 		{
 			EditorGUI.indentLevel++;
 			ReorderableListGUI.Title("Data");
-			/*
+					
+
 			EditorGUI.BeginChangeCheck();
-			ReorderableListGUI.ListField
+			ReorderableListGUI.ListField(_target.datas,DrawDataEntryItem,38);
 			
 			if (EditorGUI.EndChangeCheck())
 			{
 				Debug.Log("change");
 				EditorUtility.SetDirty(_target);
 			}
-			*/
-			GUILayout.TextField("here goes a list of key/values");
-			GUILayout.Space(10);
+
+
 			EditorGUI.indentLevel--;
 		}
 
@@ -69,99 +69,105 @@ public class PlayMakerWakHttpRequestInspector : Editor
 			EditorGUI.indentLevel--;
 		}
 
-		GUILayout.Space(10);
-
-		SerializedProperty onSuccessProperty = serializedObject.FindProperty("OnSuccess");
-
-		if (onSuccessProperty!=null)
-		{
-			EditorGUIUtility.LookLikeControls();
-			EditorGUILayout.PropertyField(onSuccessProperty);
-			
-			if(GUI.changed)
-			{
-				serializedObject.ApplyModifiedProperties();
-			}
-		}
-
-		SerializedProperty onFailureProperty = serializedObject.FindProperty("OnFailure");
+		_target.UnityEventSectionToggle = EditorGUILayout.Foldout(_target.UnityEventSectionToggle,"Unity Events");
 		
-		if (onFailureProperty!=null)
+		if (_target.UnityEventSectionToggle)
 		{
-			EditorGUIUtility.LookLikeControls();
-			EditorGUILayout.PropertyField(onFailureProperty);
-			
-			if(GUI.changed)
+			SerializedProperty onSuccessProperty = serializedObject.FindProperty("OnSuccess");
+
+			if (onSuccessProperty!=null)
 			{
-				serializedObject.ApplyModifiedProperties();
+				EditorGUIUtility.LookLikeControls();
+				EditorGUILayout.PropertyField(onSuccessProperty);
+				
+				if(GUI.changed)
+				{
+					serializedObject.ApplyModifiedProperties();
+				}
+			}
+
+			SerializedProperty onFailureProperty = serializedObject.FindProperty("OnFailure");
+			
+			if (onFailureProperty!=null)
+			{
+				EditorGUIUtility.LookLikeControls();
+				EditorGUILayout.PropertyField(onFailureProperty);
+				
+				if(GUI.changed)
+				{
+					serializedObject.ApplyModifiedProperties();
+				}
+			}
+			SerializedProperty onCompleteProperty = serializedObject.FindProperty("OnComplete");
+			
+			if (onCompleteProperty!=null)
+			{
+				EditorGUIUtility.LookLikeControls();
+				EditorGUILayout.PropertyField(onCompleteProperty);
+				
+				if(GUI.changed)
+				{
+					serializedObject.ApplyModifiedProperties();
+				}
 			}
 		}
-		SerializedProperty onCompleteProperty = serializedObject.FindProperty("OnComplete");
+
+		_target.PlayMakerEventSectionToggle = EditorGUILayout.Foldout(_target.PlayMakerEventSectionToggle,"PlayMaker Events");
 		
-		if (onCompleteProperty!=null)
+		if (_target.PlayMakerEventSectionToggle)
 		{
-			EditorGUIUtility.LookLikeControls();
-			EditorGUILayout.PropertyField(onCompleteProperty);
+			SerializedProperty EventTargetProperty = serializedObject.FindProperty("EventTarget");
 			
-			if(GUI.changed)
+			if (EventTargetProperty!=null)
 			{
-				serializedObject.ApplyModifiedProperties();
+				EditorGUIUtility.LookLikeControls();
+				EditorGUILayout.PropertyField(EventTargetProperty);
+				
+				if(GUI.changed)
+				{
+					serializedObject.ApplyModifiedProperties();
+				}
+			}
+
+			SerializedProperty OnSuccessEventProperty = serializedObject.FindProperty("OnSuccessEvent");
+			
+			if (OnSuccessEventProperty!=null)
+			{
+				EditorGUIUtility.LookLikeControls();
+				EditorGUILayout.PropertyField(OnSuccessEventProperty);
+				
+				if(GUI.changed)
+				{
+					serializedObject.ApplyModifiedProperties();
+				}
+			}
+
+			SerializedProperty OnFailureEventProperty = serializedObject.FindProperty("OnFailureEvent");
+			
+			if (OnFailureEventProperty!=null)
+			{
+				EditorGUIUtility.LookLikeControls();
+				EditorGUILayout.PropertyField(OnFailureEventProperty);
+				
+				if(GUI.changed)
+				{
+					serializedObject.ApplyModifiedProperties();
+				}
+			}
+
+			SerializedProperty OnCompleteEventProperty = serializedObject.FindProperty("OnCompleteEvent");
+			
+			if (OnCompleteEventProperty!=null)
+			{
+				EditorGUIUtility.LookLikeControls();
+				EditorGUILayout.PropertyField(OnCompleteEventProperty);
+				
+				if(GUI.changed)
+				{
+					serializedObject.ApplyModifiedProperties();
+				}
 			}
 		}
-
-
-		SerializedProperty EventTargetProperty = serializedObject.FindProperty("EventTarget");
-		
-		if (EventTargetProperty!=null)
-		{
-			EditorGUIUtility.LookLikeControls();
-			EditorGUILayout.PropertyField(EventTargetProperty);
-			
-			if(GUI.changed)
-			{
-				serializedObject.ApplyModifiedProperties();
-			}
-		}
-
-		SerializedProperty OnSuccessEventProperty = serializedObject.FindProperty("OnSuccessEvent");
-		
-		if (OnSuccessEventProperty!=null)
-		{
-			EditorGUIUtility.LookLikeControls();
-			EditorGUILayout.PropertyField(OnSuccessEventProperty);
-			
-			if(GUI.changed)
-			{
-				serializedObject.ApplyModifiedProperties();
-			}
-		}
-
-		SerializedProperty OnFailureEventProperty = serializedObject.FindProperty("OnFailureEvent");
-		
-		if (OnFailureEventProperty!=null)
-		{
-			EditorGUIUtility.LookLikeControls();
-			EditorGUILayout.PropertyField(OnFailureEventProperty);
-			
-			if(GUI.changed)
-			{
-				serializedObject.ApplyModifiedProperties();
-			}
-		}
-
-		SerializedProperty OnCompleteEventProperty = serializedObject.FindProperty("OnCompleteEvent");
-		
-		if (OnCompleteEventProperty!=null)
-		{
-			EditorGUIUtility.LookLikeControls();
-			EditorGUILayout.PropertyField(OnCompleteEventProperty);
-			
-			if(GUI.changed)
-			{
-				serializedObject.ApplyModifiedProperties();
-			}
-		}
-
 
 		GUILayout.Space(10);
 		if (GUILayout.Button("Test"))
@@ -170,25 +176,42 @@ public class PlayMakerWakHttpRequestInspector : Editor
 		}
 
 		GUILayout.TextArea("-- preview of the result -- ");
+
 	}
-	/*
-	private ColorReference DrawListItem(Rect position, ColorReference value) {
+
+
+	private RequestDataEntry DrawDataEntryItem(Rect position, RequestDataEntry value) {
 		
 		if (value==null)
 		{
-			
-			value =  new ColorReference("Color "+ (_target.References.Count),_target.NextUid);
-			_target.NextUid ++;
+			value =  new RequestDataEntry("Data "+ (_target.datas.Count));
 		}
-		
-		if (value.Editable)
-		{
-			value.Name = EditorGUI.TextField(position,value.Name);
-		}else{
-			GUI.Label(position,value.Name);
-		}
+
+		// TODO: better handling of GUi Rect...
+		Rect _keyPos = position;
+		_keyPos.height /=2;
+
+		Rect _keyPosLabel = _keyPos;
+		_keyPosLabel.width = 36;
+		GUI.Label(_keyPosLabel,"Key");
+		_keyPos.x = _keyPos.x + _keyPosLabel.width/2;
+		_keyPos.width -= _keyPosLabel.width/2;
+		value.key = EditorGUI.TextField(_keyPos,value.key);
+
+
+		Rect _valuePos = position;
+		_valuePos.height /=2;
+		_valuePos.y = position.y +_valuePos.height +2;
+
+		Rect _valuePosLabel = _valuePos;
+		_valuePosLabel.width = 36;
+		GUI.Label(_valuePosLabel,"Value");
+		_valuePos.x = _valuePos.x + _valuePosLabel.width/2;
+		_valuePos.width -= _valuePosLabel.width/2;
+		value.value = EditorGUI.TextField(_valuePos,value.value);
+		 
 		return value;
 	}
-	*/
+
 }
 
