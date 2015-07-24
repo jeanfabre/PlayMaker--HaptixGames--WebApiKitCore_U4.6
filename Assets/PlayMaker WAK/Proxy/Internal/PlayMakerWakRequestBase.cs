@@ -70,7 +70,7 @@ public abstract class PlayMakerWakRequestBase : MonoBehaviour {
 	/// <summary>
 	/// The text result of the request
 	/// </summary>
-	public string textResult;
+	public string textResult = "";
 
 	/// <summary>
 	/// The texture result of the request

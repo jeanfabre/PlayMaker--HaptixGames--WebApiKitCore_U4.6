@@ -15,6 +15,8 @@ public class PlayMakerWakHttpRequestInspector : Editor
 {
 	PlayMakerWakHttpRequest _target;
 
+	Vector2 _previewScroll;
+
 
 	public override void OnInspectorGUI()
 	{
@@ -174,10 +176,46 @@ public class PlayMakerWakHttpRequestInspector : Editor
 		{
 			if (GUILayout.Button("Test"))
 			{
+				if (string.IsNullOrEmpty(_target.textResult))
+				{
+				_target.textResult = "This is just a test, doing nothing\n" +
+					"But really it shoudl call the url, and display here the result";
+				}else
+				{
+					_target.textResult = "";
+				}
 				// here we would make the http request and log the result.
 			}
 
-			GUILayout.TextArea("-- preview of the result -- ");
+			if (!string.IsNullOrEmpty(_target.textResult))
+			{
+				GUILayout.Label("Preview of the result:");
+				GUIStyle style = new GUIStyle(EditorStyles.textField);
+				style.wordWrap = true;
+				
+				float height = style.CalcHeight(new GUIContent(_target.textResult), Screen.width);
+				
+				Rect rect = EditorGUILayout.GetControlRect(GUILayout.Height(height));
+
+				rect.height += 4;
+				GUI.skin.box.alignment = TextAnchor.UpperLeft;
+				GUI.Box(rect,_target.textResult);
+				//GUI.changed = false;
+				//string text = EditorGUI.TextArea(rect, _target.textResult, style);
+				if (GUI.changed)
+				{
+					//_target.textResult = text;
+				}
+
+				GUILayout.Space(4);
+				/*
+				_previewScroll = GUILayout.BeginScrollView(_previewScroll,"box", GUILayout.Height (200));
+				GUI.skin.box.alignment = TextAnchor.UpperLeft;
+				GUILayout.Box(_target.textResult,"label",null);
+				GUILayout.EndScrollView();
+				*/
+			}
+
 		}
 
 	}
