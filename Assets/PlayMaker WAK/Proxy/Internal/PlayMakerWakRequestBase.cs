@@ -34,6 +34,17 @@ public class RequestHeaderEntry
 {
 	public string key;
 	public string value;
+
+	public RequestHeaderEntry(string Key)
+	{
+		this.key = Key;
+	}
+	
+	public RequestHeaderEntry(string Key,string Value)
+	{
+		this.key = Key;
+		this.value = Value;
+	}
 	
 }
 
@@ -117,14 +128,18 @@ public abstract class PlayMakerWakRequestBase : MonoBehaviour {
 	public PlayMakerEventTarget EventTarget;
 
 	[EventTargetVariable("EventTarget")]
-	public PlayMakerEvent OnSuccessEvent = new PlayMakerEvent("WAK / ON SUCCESS");
+	public PlayMakerEvent OnSuccessEvent = new PlayMakerEvent("none");
 
 	[EventTargetVariable("EventTarget")]
-	public PlayMakerEvent OnFailureEvent = new PlayMakerEvent("WAK / ON FAILURE");
+	public PlayMakerEvent OnFailureEvent = new PlayMakerEvent("none");
 
 	[EventTargetVariable("EventTarget")]
-	public PlayMakerEvent OnCompleteEvent = new PlayMakerEvent("WAK / ON COMPLETE");
+	public PlayMakerEvent OnCompleteEvent = new PlayMakerEvent("none");
 
+	/// <summary>
+	/// Used to remember the user preference for the inspector debug Events toggle section
+	/// </summary>
+	public bool DebugEventSectionToggle = false;
 
 	/* not sure we need this if we have Unity Events and PlayMaker events. But delegates woudl be nice too in all cases.
 	public virtual void OnSuccess(  core.http.HttpResponse response)

@@ -27,7 +27,8 @@ public class PlayMakerWakHttpRequestInspector : Editor
 
 		_target.Uri = EditorGUILayout.TextField("Uri",_target.Uri);
 
-		_target.RequestSectionToggle = EditorGUILayout.Foldout(_target.RequestSectionToggle,"Data");
+		int _dataEntryCount = _target.datas.Count;
+		_target.RequestSectionToggle = EditorGUILayout.Foldout(_target.RequestSectionToggle,"Data ("+_dataEntryCount+")");
 		
 		if (_target.RequestSectionToggle)
 		{
@@ -40,36 +41,32 @@ public class PlayMakerWakHttpRequestInspector : Editor
 			
 			if (EditorGUI.EndChangeCheck())
 			{
-				Debug.Log("change");
 				EditorUtility.SetDirty(_target);
 			}
-
 
 			EditorGUI.indentLevel--;
 		}
 
-		_target.HeaderSectionToggle = EditorGUILayout.Foldout(_target.HeaderSectionToggle,"Headers");
+		int _headerEntryCount = _target.Headers.Count;
+		_target.HeaderSectionToggle = EditorGUILayout.Foldout(_target.HeaderSectionToggle,"Headers ("+_headerEntryCount+")");
 	
 		if (_target.HeaderSectionToggle)
 		{
 			EditorGUI.indentLevel++;
-				ReorderableListGUI.Title("Headers");
-			/*
+			ReorderableListGUI.Title("Headers");
+
 			EditorGUI.BeginChangeCheck();
-			ReorderableListGUI.ListField
+			ReorderableListGUI.ListField(_target.Headers,DrawHeaderEntryItem,38);
 			
 			if (EditorGUI.EndChangeCheck())
 			{
-				Debug.Log("change");
 				EditorUtility.SetDirty(_target);
 			}
-			*/
-			GUILayout.TextField("here goes a list of headers/values");
-			GUILayout.Space(10);
+
 			EditorGUI.indentLevel--;
 		}
 
-		_target.UnityEventSectionToggle = EditorGUILayout.Foldout(_target.UnityEventSectionToggle,"Unity Events");
+		_target.UnityEventSectionToggle = EditorGUILayout.Foldout(_target.UnityEventSectionToggle,"Unity Events (0)");
 		
 		if (_target.UnityEventSectionToggle)
 		{
@@ -112,7 +109,7 @@ public class PlayMakerWakHttpRequestInspector : Editor
 			}
 		}
 
-		_target.PlayMakerEventSectionToggle = EditorGUILayout.Foldout(_target.PlayMakerEventSectionToggle,"PlayMaker Events");
+		_target.PlayMakerEventSectionToggle = EditorGUILayout.Foldout(_target.PlayMakerEventSectionToggle,"PlayMaker Events (3)");
 		
 		if (_target.PlayMakerEventSectionToggle)
 		{
@@ -128,6 +125,7 @@ public class PlayMakerWakHttpRequestInspector : Editor
 					serializedObject.ApplyModifiedProperties();
 				}
 			}
+
 
 			SerializedProperty OnSuccessEventProperty = serializedObject.FindProperty("OnSuccessEvent");
 			
@@ -167,15 +165,20 @@ public class PlayMakerWakHttpRequestInspector : Editor
 					serializedObject.ApplyModifiedProperties();
 				}
 			}
+
 		}
 
-		GUILayout.Space(10);
-		if (GUILayout.Button("Test"))
+		_target.DebugEventSectionToggle = EditorGUILayout.Foldout(_target.DebugEventSectionToggle,"Debug");
+		
+		if (_target.DebugEventSectionToggle)
 		{
-			// here we would make the http request and log the result.
-		}
+			if (GUILayout.Button("Test"))
+			{
+				// here we would make the http request and log the result.
+			}
 
-		GUILayout.TextArea("-- preview of the result -- ");
+			GUILayout.TextArea("-- preview of the result -- ");
+		}
 
 	}
 
@@ -184,6 +187,7 @@ public class PlayMakerWakHttpRequestInspector : Editor
 		
 		if (value==null)
 		{
+			Debug.Log("hello");
 			value =  new RequestDataEntry("Data "+ (_target.datas.Count));
 		}
 
@@ -210,6 +214,39 @@ public class PlayMakerWakHttpRequestInspector : Editor
 		_valuePos.width -= _valuePosLabel.width/2;
 		value.value = EditorGUI.TextField(_valuePos,value.value);
 		 
+		return value;
+	}
+
+	private RequestHeaderEntry DrawHeaderEntryItem(Rect position, RequestHeaderEntry value) {
+		
+		if (value==null)
+		{
+			value =  new RequestHeaderEntry("Header "+ (_target.Headers.Count));
+		}
+		
+		// TODO: better handling of GUi Rect...
+		Rect _keyPos = position;
+		_keyPos.height /=2;
+		
+		Rect _keyPosLabel = _keyPos;
+		_keyPosLabel.width = 36;
+		GUI.Label(_keyPosLabel,"Key");
+		_keyPos.x = _keyPos.x + _keyPosLabel.width/2;
+		_keyPos.width -= _keyPosLabel.width/2;
+		value.key = EditorGUI.TextField(_keyPos,value.key);
+		
+		
+		Rect _valuePos = position;
+		_valuePos.height /=2;
+		_valuePos.y = position.y +_valuePos.height +2;
+		
+		Rect _valuePosLabel = _valuePos;
+		_valuePosLabel.width = 36;
+		GUI.Label(_valuePosLabel,"Value");
+		_valuePos.x = _valuePos.x + _valuePosLabel.width/2;
+		_valuePos.width -= _valuePosLabel.width/2;
+		value.value = EditorGUI.TextField(_valuePos,value.value);
+		
 		return value;
 	}
 

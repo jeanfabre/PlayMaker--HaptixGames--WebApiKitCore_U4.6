@@ -19,7 +19,7 @@ public class PlayMakerWakHttpRequest : PlayMakerWakRequestBase {
 
 	public bool ConfigSectionToggle = false;
 
-
+	
 	// Use this for initialization
 	void Start () {
 	
